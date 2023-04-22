@@ -1,0 +1,39 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package prog3.unicesu.ae4;
+
+/**
+ *
+ * @author Gabriel Eduardo Dias Freitas
+ */
+public class Quadra {
+    private String nome;
+    private String tipo;
+    private double valorMinuto;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public double getValorMinuto() {
+        return valorMinuto;
+    }
+
+    public void setValorMinuto(double valorMinuto) {
+        this.valorMinuto = valorMinuto;
+    }
+}
