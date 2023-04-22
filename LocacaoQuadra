@@ -1,0 +1,96 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
+ */
+
+package prog3.unicesu.ae4;
+
+/**
+ *
+ * @author Gabriel Eduardo Dias Freitas
+ */
+
+import java.util.Scanner;
+
+public class LocacaoQuadra {
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Quadra quadra = new Quadra();
+        Locatario locatario = new Locatario();
+        int tempoMinutos, anoNascimento;
+        String necessitaEquipamento, cpf;
+        
+        System.out.println("Cadastro da Quadra");
+        System.out.print("Nome da Quadra: ");
+        quadra.setNome(scanner.nextLine()); 
+        System.out.print("Tipo da Quadra: ");
+        quadra.setTipo(scanner.nextLine());
+        System.out.print("Valor do Minuto em R$ (x,xx): ");
+        quadra.setValorMinuto(scanner.nextDouble());
+        scanner.nextLine();
+        
+        System.out.println("\nCadastro do Locatário");
+        System.out.print("Nome: ");
+        locatario.setNome(scanner.nextLine());
+        System.out.print("CPF (xxx.xxx.xxx-xx): ");
+        cpf = scanner.nextLine();
+        locatario.setCpf(cpf);
+        System.out.print("Telefone (xx xxxxx-xxxx): ");
+        locatario.setTelefone(scanner.nextLine());
+        System.out.print("Ano de Nascimento(4 dígitos): ");
+        anoNascimento = scanner.nextInt();
+        scanner.nextLine();
+        locatario.setAnoNascimento(anoNascimento);
+        
+        // Verifica se o locatário é menor de idade
+        int idade = 2023 - locatario.getAnoNascimento();
+        if (idade < 18) {
+            System.out.println("Locatário menor de idade. Programa encerrado.");
+            System.exit(0);
+        }
+        
+        System.out.print("\nTempo de Locação em Minutos: ");
+        tempoMinutos = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Necessita de Equipamento (S/N): ");
+        necessitaEquipamento = scanner.nextLine();
+        
+        double valorCalculado = calcularValorLocacao(quadra, tempoMinutos, necessitaEquipamento);
+        exibirResumoLocacao(quadra, locatario, tempoMinutos, necessitaEquipamento, valorCalculado);
+    }
+    
+    public static double calcularValorLocacao(Quadra quadra, int tempoMinutos, String necessitaEquipamento) {
+        double valorCalculado = 0.0;
+        double valorMinuto = quadra.getValorMinuto();
+        
+        if (tempoMinutos > 120) { // mais de 2 horas
+            valorMinuto = valorMinuto * 0.9; // 10% de desconto
+        }
+        
+        valorCalculado = valorMinuto * tempoMinutos;
+        
+        if (necessitaEquipamento.equalsIgnoreCase("S")) {
+            valorCalculado += 50.0; // valor adicional de equipamento
+        }
+        
+        return valorCalculado;
+    }
+    
+    public static void exibirResumoLocacao(Quadra quadra, Locatario locatario, int tempoMinutos, String necessitaEquipamento, double valorCalculado) {
+        System.out.println("\n---RESUMO DA LOCAÇÃO---\n");
+        System.out.println("\nLOCATÁRIO\n");
+        System.out.println("Nome: " + locatario.getNome());
+        System.out.println("CPF: " + locatario.getCpf());
+        System.out.println("Telefone: " + locatario.getTelefone());
+        System.out.println("Ano de Nascimento: " + locatario.getAnoNascimento());
+        System.out.println("\nQUADRA\n");
+        System.out.println("Nome da Quadra: " + quadra.getNome());
+        System.out.println("Tipo: " + quadra.getTipo());
+        System.out.println("Valor do Minuto: R$ " + String.format("%.2f", quadra.getValorMinuto()));
+        System.out.println("\nLOCAÇÃO\n");
+        System.out.println("Tempo de Locação em Minutos: " + tempoMinutos);
+        System.out.println("Necessita de Equipamento:" + necessitaEquipamento);
+        System.out.println("Valor Calculado: R$ " + String.format("%.2f", valorCalculado));
+        }
+} 
