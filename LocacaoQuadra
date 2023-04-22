@@ -35,6 +35,10 @@ public class LocacaoQuadra {
         locatario.setNome(scanner.nextLine());
         System.out.print("CPF (xxx.xxx.xxx-xx): ");
         cpf = scanner.nextLine();
+        if (!validarCpf(cpf)) {
+            System.out.println("CPF inválido. Programa encerrado.");
+            System.exit(0);
+        }
         locatario.setCpf(cpf);
         System.out.print("Telefone (xx xxxxx-xxxx): ");
         locatario.setTelefone(scanner.nextLine());
@@ -53,8 +57,41 @@ public class LocacaoQuadra {
         
         double valorCalculado = calcularValorLocacao(quadra, tempoMinutos, necessitaEquipamento);
         exibirResumoLocacao(quadra, locatario, tempoMinutos, necessitaEquipamento, valorCalculado);
+    
     }
     
+    public static boolean validarCpf(String cpf) {
+        cpf = cpf.replaceAll("\\D", ""); // remove caracteres não numéricos
+        if (cpf.length() != 11) {
+            return false;
+        }
+        int[] digitos = new int[11];
+        for (int i = 0; i < 11; i++) {
+            digitos[i] = Integer.parseInt(cpf.substring(i, i + 1));
+        }
+        // cálculo do primeiro dígito verificador
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += digitos[i] * (10 - i);
+        }
+        int resto = soma % 11;
+        int digitoVerificador1 = resto < 2 ? 0 : 11 - resto;
+        if (digitos[9] != digitoVerificador1) {
+            return false;
+        }
+        // cálculo do segundo dígito verificador
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += digitos[i] * (11 - i);
+        }
+        resto = soma % 11;
+        int digitoVerificador2 = resto < 2 ? 0 : 11 - resto;
+        if (digitos[10] != digitoVerificador2) {
+            return false;
+        }
+        return true;
+    }
+
     public static double calcularValorLocacao(Quadra quadra, int tempoMinutos, String necessitaEquipamento) {
         double valorCalculado = 0.0;
         double valorMinuto = quadra.getValorMinuto();
@@ -88,4 +125,5 @@ public class LocacaoQuadra {
         System.out.println("Necessita de Equipamento:" + necessitaEquipamento);
         System.out.println("Valor Calculado: R$ " + String.format("%.2f", valorCalculado));
         }
+    
 } 
