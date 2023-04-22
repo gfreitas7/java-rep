@@ -43,11 +43,6 @@ public class LocacaoQuadra {
         scanner.nextLine();
         locatario.setAnoNascimento(anoNascimento);
         
-        // Verifica se o locatário é menor de idade
-        int idade = 2023 - locatario.getAnoNascimento();
-        if (idade < 18) {
-            System.out.println("Locatário menor de idade. Programa encerrado.");
-            System.exit(0);
         }
         
         System.out.print("\nTempo de Locação em Minutos: ");
